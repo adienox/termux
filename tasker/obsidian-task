@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+task=$(cat '/storage/emulated/0/Documents/Knowledge Garden/Extras/temp.md')
+
+node /data/data/com.termux/files/home/.termux/tasker/js/obsidian-mobile.js $task

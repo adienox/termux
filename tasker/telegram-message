@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+cd /data/data/com.termux/files/home/.termux/tasker/js/
+
+while getopts ":m:wlh" opt; do
+  case $opt in
+    m)
+      echo "-m was triggered, Parameter: $OPTARG" >&2
+      ;;
+    w)
+      node shellTelegram.cjs -w
+      ;;
+    l)
+      cat /storage/emulated/0/Documents/outing.txt | node shellTelegram.cjs -l
+      ;;
+    h)
+      node shellTelegram.cjs -m 'bebu me home 🏡😚'
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+

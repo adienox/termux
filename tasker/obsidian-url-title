@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+url=$(cat '/storage/emulated/0/Documents/Knowledge Garden/Extras/temp.md')
+
+title=$(node /data/data/com.termux/files/home/.termux/tasker/js/title-fetcher.js "$url")
+
+echo $title > "/storage/emulated/0/Documents/Knowledge Garden/Extras/temp.md"

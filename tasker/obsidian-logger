@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+file=$(date +'%Y-%m-%d.md')
+
+sed -i -e '/^# Tasks$/!b;:a;$!{N;ba;}' -e 's/\(.*\)\n\(.*\)/\2\n\1/' $file
