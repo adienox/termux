@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+content=$(cat '/storage/emulated/0/Documents/Knowledge Garden/Extras/temp.md')
+
+node /data/data/com.termux/files/home/.termux/tasker/js/obsidian.js $content

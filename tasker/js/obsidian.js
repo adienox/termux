@@ -1,11 +1,13 @@
 import { readFile, writeFile, access, copyFile } from 'fs/promises';
+import { DateTime } from 'luxon';
 import * as chrono from 'chrono-node';
 
 
 const dailyFolder = '/storage/emulated/0/Documents/Knowledge Garden/Cards/Temporal/Daily/';
 const dailyTemplate = '/storage/emulated/0/Documents/Knowledge Garden/Extras/Templates/Temporal/Daily.md';
-const dueDelimeter = ">";
 let taskFile = '/storage/emulated/0/Documents/Knowledge Garden/Atlas/Tasks.md';
+const dueDelimeter = ">";
+const dailyFormat = 'yyyy-MM-dd';
 
 // function to check if a file is present and if not create it using template
 const filePresent = async (file) => {
@@ -14,6 +16,26 @@ const filePresent = async (file) => {
   } catch (error) {
     await copyFile(dailyTemplate, file)
   }
+}
+
+// function to add log to the log section of today's daily note
+const addToLog = async (log) => {
+  const todayFile = dailyFolder + DateTime.now().toFormat(dailyFormat) + '.md'
+  await filePresent(todayFile)
+  
+  // reading file and splitting it into an array
+  let fileContent = await readFile(todayFile, 'utf8');
+  fileContent = fileContent.split('\n'); 
+  
+  // finding the end of the # Log heading section
+  const logHeading = fileContent.indexOf('# Log');
+  const endOfLog = fileContent.slice(logHeading + 1).findIndex((item) => !item.startsWith("-"));
+  // adding log to the end of the section
+  fileContent.splice(logHeading + 1 + endOfLog, 0, `- ${log.trim()}`);
+  
+  // joining back the array and writing the file
+  fileContent = fileContent.join('\n'); 
+  await writeFile(todayFile, fileContent);
 }
 
 // function to add tasks to the end of tasks heading conditionally
@@ -75,6 +97,10 @@ const taskFormatter = (task) => {
   return {formattedTask, taskFile}
 }
 
-const task = process.argv.slice(2).join(' ')
+const log = process.argv.slice(2).join(' ')
 
-addToTasks("! " + task);
+if (log.startsWith("!")) {
+  addToTasks(log);
+} else {
+  addToLog(log);
+}
