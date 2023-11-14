@@ -1,4 +1,4 @@
-const { TelegramClient } = require("telegram");
+const { Api, TelegramClient } = require("telegram");
 const { StringSession } = require("telegram/sessions/index.js");
 const input = require("input");
 const readline = require("readline");
@@ -37,7 +37,21 @@ const startClient = async () => {
     const username = argv.u ? argv.u : process.env.DEFAULT_USER;
     const message = argv.w ? process.env.WATER_MSG : argv.m;
     
-    await client.sendMessage(username, { message });
+    if (argv.w) {
+      const result = await client.invoke(
+        new Api.messages.GetHistory({
+          peer: username,
+          limit: 1,
+          hash: BigInt("-4156887774564"),
+        })
+      );
+      lastMessage = result.messages[0].message;
+      if (lastMessage != message) {
+        await client.sendMessage(username, { message });
+      }
+    } else {
+      await client.sendMessage(username, { message });
+    }
     await client.disconnect()
   } else if (argv.l) {
     const client = await startClient();
@@ -57,6 +71,17 @@ const startClient = async () => {
 
     await client.disconnect();
     rl.close();
+  } else if (argv.p) {
+    const client = await startClient();
+    const result = await client.invoke(
+    new Api.messages.GetHistory({
+      peer: "sadikkshyaa",
+      limit: 1,
+      hash: BigInt("-4156887774564"),
+    })
+  );
+  console.log(result.messages[0].message); // prints the result
+    await client.disconnect();
   } else {
     console.error("Please specify the message to be sent using -m")
   }

@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+rm /storage/emulated/0/Documents/automate/modes/*.txt

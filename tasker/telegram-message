@@ -10,7 +10,7 @@ while getopts ":m:wlh" opt; do
       node shellTelegram.cjs -w
       ;;
     l)
-      cat /storage/emulated/0/Documents/outing.txt | node shellTelegram.cjs -l
+      cat /storage/emulated/0/Documents/automate/outing.txt | node shellTelegram.cjs -l
       ;;
     h)
       node shellTelegram.cjs -m 'bebu me home 🏡😚'
