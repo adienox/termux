@@ -1,4 +1,35 @@
 #!/usr/bin/bash
-content=$(cat '/storage/emulated/0/Documents/Knowledge Garden/Extras/temp.md')
+cd /data/data/com.termux/files/home/.termux/tasker/js/
 
-node /data/data/com.termux/files/home/.termux/tasker/js/obsidian.js $content
+while getopts ":meglqstx" opt; do
+  case $opt in
+    e)
+      node obsidian-check.js -e
+      ;;
+    l)
+      node obsidian-log.js -l
+      ;;
+    x)
+      node obsidian-quote.js -x
+      ;;
+    g)
+      node obsidian-quote.js -g
+      ;;
+    m)
+      node obsidian-log.js -m
+      ;;
+    t)
+      node title-fetcher.js
+      ;;
+    w)
+      node obsidian-check.js -w
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done

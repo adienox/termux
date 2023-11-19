@@ -1,19 +1,26 @@
 #!/usr/bin/bash
 cd /data/data/com.termux/files/home/.termux/tasker/js/
 
-while getopts ":m:wlh" opt; do
+while getopts ":m:u:wlh" opt; do
   case $opt in
+    u)
+      username="$OPTARG"
+      ;;
     m)
-      echo "-m was triggered, Parameter: $OPTARG" >&2
+      if [[ -n $username ]]; then
+        node shell-telegram.js -m "$OPTARG" -u $username
+      else
+        node shell-telegram.js -m "$OPTARG"
+      fi
       ;;
     w)
-      node shellTelegram.cjs -w
+      node shell-telegram.js -w
       ;;
     l)
-      cat /storage/emulated/0/Documents/automate/outing.txt | node shellTelegram.cjs -l
+      cat /storage/emulated/0/Documents/automate/outing.txt | node shell-telegram.js -l
       ;;
     h)
-      node shellTelegram.cjs -m 'bebu me home 🏡😚'
+      node shell-telegram.js -h
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2

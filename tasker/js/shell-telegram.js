@@ -1,14 +1,15 @@
-const { Api, TelegramClient } = require("telegram");
-const { StringSession } = require("telegram/sessions/index.js");
-const input = require("input");
-const readline = require("readline");
-require('dotenv').config();
+import { Api, TelegramClient } from "telegram";
+import { StringSession } from "telegram/sessions/index.js";
+import input from "input";
+import readline from "readline";
+import minimist from 'minimist';
+import 'dotenv/config';
 
 const apiId = Number(process.env.API_ID);
 const apiHash = process.env.API_HASH;
 const stringSession = new StringSession(process.env.STRING_SESSION);
 
-const argv = require('minimist')(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 
 const startClient = async () => {
   const client = new TelegramClient(stringSession, apiId, apiHash, {
@@ -53,6 +54,14 @@ const startClient = async () => {
       await client.sendMessage(username, { message });
     }
     await client.disconnect()
+  } else if (argv.h) {
+    const client = await startClient();
+
+    const username = process.env.DEFAULT_USER;
+    const message = process.env.HOME_MSG;
+    
+    await client.sendMessage(username, { message });
+    await client.disconnect()
   } else if (argv.l) {
     const client = await startClient();
     const username = argv.u ? argv.u : process.env.DEFAULT_USER;
@@ -71,17 +80,6 @@ const startClient = async () => {
 
     await client.disconnect();
     rl.close();
-  } else if (argv.p) {
-    const client = await startClient();
-    const result = await client.invoke(
-    new Api.messages.GetHistory({
-      peer: "sadikkshyaa",
-      limit: 1,
-      hash: BigInt("-4156887774564"),
-    })
-  );
-  console.log(result.messages[0].message); // prints the result
-    await client.disconnect();
   } else {
     console.error("Please specify the message to be sent using -m")
   }

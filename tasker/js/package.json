@@ -1,9 +1,11 @@
 {
   "type": "module",
   "dependencies": {
+    "@doist/todoist-api-typescript": "^3.0.1",
     "chrono-node": "^2.7.0",
     "dotenv": "^16.3.1",
     "get-title-at-url": "^2.0.0",
+    "got": "^13.0.0",
     "input": "^1.0.1",
     "luxon": "^3.4.3",
     "minimist": "^1.2.8",
