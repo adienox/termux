@@ -1,19 +1,13 @@
 #!/usr/bin/bash
 cd /data/data/com.termux/files/home/.termux/tasker/js/
 
-while getopts ":meglqstx" opt; do
+while getopts ":meglqstw" opt; do
   case $opt in
     e)
       node obsidian-check.js -e
       ;;
     l)
       node obsidian-log.js -l
-      ;;
-    x)
-      node obsidian-quote.js -x
-      ;;
-    g)
-      node obsidian-quote.js -g
       ;;
     m)
       node obsidian-log.js -m

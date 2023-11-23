@@ -46,7 +46,7 @@ const startClient = async () => {
           hash: BigInt("-4156887774564"),
         })
       );
-      lastMessage = result.messages[0].message;
+      const lastMessage = result.messages[0].message;
       if (lastMessage != message) {
         await client.sendMessage(username, { message });
       }

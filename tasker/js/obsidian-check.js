@@ -38,12 +38,11 @@ const eveningLogCheck = async () => {
 }
 
 const workoutDoneCheck = async () => {
-  const tasks = api.getTasks()
-      .then((tasks) => tasks)
+  const tasks = await api.getTasks()
       .catch((error) => console.log(error))
-  
+
   await filePresent(todayFile)
-  
+
   // reading file and splitting it into an array
   let fileContent = await readFile(todayFile, 'utf8');
   fileContent = fileContent.split('\n'); 
